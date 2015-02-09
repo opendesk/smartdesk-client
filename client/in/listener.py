@@ -31,22 +31,23 @@ class SmartDeskListener(object):
             self.thread.join()          #wait until thread has finished
             self.thread = None
 
+
     def _threadEntry(self):
-        print "starting"
 
+        print "starting listener"
         while self.alive.isSet():
-
-            print "hello"
+            buffer = []
             try:
-                print "about to do request"
                 r = requests.get(self.url, stream=True)
-
                 for content in r.iter_content():
-                    print "line", content
-                    # TOdo break possible here
-                    # filter out keep-alive new lines
-                    # if content:
-                    #     self.queue.append(json.loads(content))
+                    if content == "\r\n":
+                        if buffer:
+                            self.queue.append(json.loads("".join(buffer)))
+                            buffer = []
+                            if not self.alive.isSet():
+                                break
+                    else:
+                        buffer.append(content)
             except ReadTimeout:
                 print "timeout"
 

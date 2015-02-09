@@ -1,22 +1,35 @@
 from listener import SmartDeskListener
 from collections import deque
-from task_library import TaskLibrary
 import time
 import os
+import sys
+import imp
 
 LIBRARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "libs")
-LIBRARY_MODULE = "test_library"
-LIBRARY_CLASS = "TestLibrary"
 
+TEST_DATA = {
+    "dotted_path": "test_library.test",
+    "args": [1, 5, "hello"],
+    "kwargs": {}
+}
 
-def process_request(library, data):
+def process_request(data):
 
-    print "data", data
+    dotted_path = data.get("dotted_path")
+    elements = dotted_path.split(".")
+    module = elements[-2]
+    func_name = elements[-1]
+    args = data.get("args")
+    kwargs = data.get("kwargs")
 
-    func = getattr(library, "test", None)
+    sys.path.append(os.path.join(LIBRARY_PATH, *(elements[:-2])))
+    f, pathname, description =  imp.find_module(module)
+    library_module = imp.load_module(module, f, pathname, description)
+    func = getattr(library_module, func_name, None)
 
     if func:
-        func("apples")
+        func(*args, **kwargs)
+
 
 
 
@@ -24,29 +37,25 @@ def process_request(library, data):
 def main():
 
     uuid = "a" * 4
-
     queue = deque()
     url = "https://smartdesk-cc.herokuapp.com/input/%s/consume" % uuid
-
-    # /kghf.asg.dd?foo=bazz
-    #
-
     listener = SmartDeskListener(url, deque)
     listener.start()
-    library = TaskLibrary(LIBRARY_PATH, LIBRARY_MODULE, LIBRARY_CLASS, a="hello", b=2)
 
     data = "hello"
 
     while True:
         try:
             data = queue.popleft()
-            process_request(library, data)
+            process_request(data)
         except IndexError:
             # print "no data"
-            time.sleep(1.0)
+            # process_request(TEST_DATA)
+            time.sleep(0.1)
         except KeyboardInterrupt:
             listener.stop()
             break
+
     print "listener finish"
 
 

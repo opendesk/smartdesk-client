@@ -1,0 +1,13 @@
+#!/bin/bash
+
+BASEDIR="$( dirname "$0" )"
+cd "$BASEDIR"
+cd ".."
+echo $(pwd)
+
+source ../smart_env/bin/activate
+python client/in/main.py
+
+
+
+

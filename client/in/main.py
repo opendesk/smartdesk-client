@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from listener import SmartDeskListener
 from collections import deque
 import time
@@ -8,8 +10,6 @@ try:
     import RPi.GPIO as gpio
 except ImportError:
     import dummy_gpio as gpio
-
-
 
 LIBRARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "libs")
 

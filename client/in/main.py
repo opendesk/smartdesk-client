@@ -16,7 +16,7 @@ LIBRARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "libs")
 TEST_DATA = {
     "dotted_path": "flash.led",
     "args": [],
-    "kwargs": {"r": 1, "g": 0, "b": 0, "count": 2 , "dur": 2}
+    "kwargs": {"r": 1, "g": 1, "b": 0, "count": 2 , "dur": 2}
 }
 
 def process_request(data):
@@ -58,7 +58,7 @@ def main():
         except KeyboardInterrupt:
             listener.stop()
             break
-            
+
     gpio.cleanup()
     print "listener finish"
 

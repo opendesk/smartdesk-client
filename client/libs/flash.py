@@ -5,37 +5,29 @@ except ImportError:
 import time
 
 
+
 def led(r, g, b, count, dur):
     gpio.setmode(gpio.BOARD)
 
-    if r < 0:
-        r = 0
-    if g < 0:
-        g = 0
-    if b < 0:
-        b = 0
-    if r > 1:
-        r = 1
-    if g > 1:
-        g = 1
-    if b > 1:
-        b = 1
+    red = 0 if r else 1
+    green = 0 if g else 1
+    blue = 0 if b else 1
 
     gpio.setup(11, gpio.OUT)
     gpio.setup(13, gpio.OUT)
     gpio.setup(15, gpio.OUT)
 
     for i in range(count):
-        _flash(r, g, b, dur)
+        _flash(red, green, blue, dur)
 
     gpio.cleanup()
 
 
-def _flash(r, g, b, dur):
+def _flash(red, green, blue, dur):
     print "on"
-    gpio.output(11, r)
-    gpio.output(13, g)
-    gpio.output(15, b)
+    gpio.output(11, red)
+    gpio.output(13, green)
+    gpio.output(15, blue)
     time.sleep(dur)
     print "off"
     gpio.output(11, 1)

@@ -1,4 +1,4 @@
 
 
 ROOT_USER = "pi"
-ROOT_USER = "raspberry"
+ROOT_PASSWORD = "raspberry"

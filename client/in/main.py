@@ -8,9 +8,9 @@ import imp
 LIBRARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "libs")
 
 TEST_DATA = {
-    "dotted_path": "test_library.test",
-    "args": [1, 5, "hello"],
-    "kwargs": {}
+    "dotted_path": "flash.led",
+    "args": [],
+    "kwargs": {"r": 1, "g": 0, "b": 0, "count": 2 , "dur": 2}
 }
 
 def process_request(data):
@@ -31,9 +31,6 @@ def process_request(data):
         func(*args, **kwargs)
 
 
-
-
-
 def main():
 
     uuid = "a" * 4
@@ -50,8 +47,8 @@ def main():
             process_request(data)
         except IndexError:
             # print "no data"
-            # process_request(TEST_DATA)
-            time.sleep(0.1)
+            process_request(TEST_DATA)
+            time.sleep(2.0)
         except KeyboardInterrupt:
             listener.stop()
             break

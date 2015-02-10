@@ -16,7 +16,7 @@ LIBRARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "libs")
 TEST_DATA = {
     "dotted_path": "flash.led",
     "args": [],
-    "kwargs": {"r": False, "g": True, "b": False, "count": 2 , "dur": 2}
+    "kwargs": {"r": False, "g": False, "b": True, "count": 5 , "dur": 0.5}
 }
 
 def process_request(data):

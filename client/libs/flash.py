@@ -32,12 +32,13 @@ def led(r, g, b, count, dur):
 
 
 def _flash(r, g, b, dur):
-
+    print "on"
     gpio.output(11, r)
     gpio.output(13, g)
     gpio.output(15, b)
     time.sleep(dur)
-    gpio.output(11, 0)
-    gpio.output(13, 0)
-    gpio.output(15, 0)
+    print "off"
+    gpio.output(11, 1)
+    gpio.output(13, 1)
+    gpio.output(15, 1)
     time.sleep(dur)

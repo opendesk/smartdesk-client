@@ -4,6 +4,12 @@ import time
 import os
 import sys
 import imp
+try:
+    import RPi.GPIO as gpio
+except ImportError:
+    import dummy_gpio as gpio
+
+
 
 LIBRARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "libs")
 
@@ -52,7 +58,8 @@ def main():
         except KeyboardInterrupt:
             listener.stop()
             break
-
+            
+    gpio.cleanup()
     print "listener finish"
 
 

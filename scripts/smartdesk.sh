@@ -11,7 +11,7 @@
 ### END INIT INFO
 
 # Change the next 3 lines to suit where you install your script and what you want to call it
-DIR=/opt/smartdesk/smartdesk-client/client/in
+DIR=/opt/smartdesk/smartdesk-client/src/smartdesk-client
 DAEMON=$DIR/main.py
 DAEMON_NAME=smartdesk
 

@@ -6,12 +6,13 @@ import time
 import os
 import sys
 import imp
+import signal
 try:
     import RPi.GPIO as gpio
 except ImportError:
-    import dummy_gpio as gpio
+    import libs.dummy_gpio as gpio
 
-LIBRARY_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "libs")
+LIBRARY_PATH = os.path.join(os.path.dirname(__file__), "libs")
 
 TEST_DATA = {
     "dotted_path": "flash.led",
@@ -45,8 +46,6 @@ def main():
     listener = SmartDeskListener(url, deque)
     listener.start()
 
-    data = "hello"
-
     while True:
         try:
             data = queue.popleft()
@@ -57,11 +56,12 @@ def main():
             time.sleep(2.0)
         except KeyboardInterrupt:
             listener.stop()
+            gpio.cleanup()
             break
-
-    gpio.cleanup()
-    print "listener finish"
-
+        except SystemExit:
+            listener.stop()
+            gpio.cleanup()
+            break
 
 
 if __name__ == "__main__":

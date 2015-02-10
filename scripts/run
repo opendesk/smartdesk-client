@@ -1,8 +1,0 @@
-#!/bin/bash
-
-source ../smart_env/bin/activate
-python client/in/main.py
-
-
-
-

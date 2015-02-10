@@ -37,7 +37,7 @@ class SmartDeskListener(object):
         while self.alive.isSet():
             buffer = []
             try:
-                r = requests.get(self.url, stream=True)
+                r = requests.get(self.url, stream=True, timeout=30)
                 for content in r.iter_content():
                     if content == "\r\n":
                         if buffer:

@@ -20,11 +20,10 @@ RANDOM_VALUES = [
     {"r": True, "g": False, "b": False, "count": 20 , "dur": 0.1},
 ]
 
-values_iter = itertools.cycle(RANDOM_VALUES)
+
 
 def random_led(*args, **kwargs):
-    print "random"
-    v = values_iter.next()
+    v = RANDOM_VALUES[random.randint(0, 8)]
     led(**v)
 
 

@@ -4,6 +4,28 @@ except ImportError:
     import dummy_gpio as gpio
 import time
 
+import random
+import itertools
+
+
+RANDOM_VALUES = [
+    {"r": False, "g": False, "b": True, "count": 5 , "dur": 0.5},
+    {"r": False, "g": True, "b": False, "count": 5 , "dur": 0.5},
+    {"r": True, "g": False, "b": False, "count": 5 , "dur": 0.5},
+    {"r": False, "g": False, "b": True, "count": 3 , "dur": 1.0},
+    {"r": False, "g": True, "b": False, "count": 3 , "dur": 1.0},
+    {"r": True, "g": False, "b": False, "count": 3 , "dur": 1.0},
+    {"r": False, "g": False, "b": True, "count": 20 , "dur": 0.1},
+    {"r": False, "g": True, "b": False, "count": 20 , "dur": 0.1},
+    {"r": True, "g": False, "b": False, "count": 20 , "dur": 0.1},
+]
+
+values_iter = itertools.cycle(RANDOM_VALUES)
+
+def random_led(*args, **kwargs):
+    print "random"
+    v = values_iter.next()
+    led(**v)
 
 
 def led(r, g, b, count, dur):
@@ -24,12 +46,12 @@ def led(r, g, b, count, dur):
 
 
 def _flash(red, green, blue, dur):
-    print "on"
+
     gpio.output(11, red)
     gpio.output(13, green)
     gpio.output(15, blue)
     time.sleep(dur)
-    print "off"
+
     gpio.output(11, 1)
     gpio.output(13, 1)
     gpio.output(15, 1)

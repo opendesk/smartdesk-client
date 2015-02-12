@@ -15,9 +15,9 @@ except ImportError:
 LIBRARY_PATH = os.path.join(os.path.dirname(__file__), "libs")
 
 TEST_DATA = {
-    "dotted_path": "flash.led",
+    "dotted_path": "flash.random_led",
     "args": [],
-    "kwargs": {"r": False, "g": False, "b": True, "count": 5 , "dur": 0.5}
+    "kwargs": {}
 }
 
 def process_request(data):
@@ -41,19 +41,20 @@ def process_request(data):
 def main():
 
     uuid = "a" * 4
-    queue = deque()
+
     url = "https://smartdesk-cc.herokuapp.com/input/%s/consume" % uuid
-    listener = SmartDeskListener(url, deque)
+    listener = SmartDeskListener(url)
     listener.start()
 
     while True:
         try:
-            data = queue.popleft()
-            process_request(data)
-        except IndexError:
-            # print "no data"
-            process_request(TEST_DATA)
-            time.sleep(2.0)
+            data = listener.read()
+            if data is not None:
+                process_request(data)
+            else:
+                pass
+                # process_request(TEST_DATA)
+            time.sleep(1.0)
         except KeyboardInterrupt:
             listener.stop()
             gpio.cleanup()
